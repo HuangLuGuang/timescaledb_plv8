@@ -1,12 +1,13 @@
 ARG postgres_version=12
 
-FROM timescale/timescaledb:latest-pg$postgres_version:
+FROM timescale/timescaledb:latest-pg$postgres_version
 
 ENV PLV8_VERSION=2.3.14 \
     PLV8_SHASUM="9bfbe6498fcc7b8554e4b7f7e48c75acef10f07cf1e992af876a71e4dbfda0a6"
 
 
-RUN  mkdir -p /tmp/build \
+RUN  apk add --no-cache curl \
+  && mkdir -p /tmp/build \
   && curl -o /tmp/build/v$PLV8_VERSION.tar.gz -SL "https://github.com/plv8/plv8/archive/v${PLV8_VERSION}.tar.gz" \
   && cd /tmp/build \
   && echo $PLV8_SHASUM v$PLV8_VERSION.tar.gz | sha256sum -c \
