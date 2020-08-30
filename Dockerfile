@@ -84,18 +84,17 @@ RUN set -ex \
     && cd build && make install \
     && cd ~ \
     \
+	&& mkdir -p /tmp/build \
+	&& curl -o /tmp/build/v$PLV8_VERSION.tar.gz -SL "https://github.com/plv8/plv8/archive/v${PLV8_VERSION}.tar.gz" \
+	&& cd /tmp/build \
+	&& tar -xzf /tmp/build/v$PLV8_VERSION.tar.gz -C /tmp/build/ \
+	&& cd /tmp/build/plv8-$PLV8_VERSION \
+	&& make static \
+	&& make install \
+	&& strip /usr/lib/postgresql/${PG_MAJOR}/lib/plv8-${PLV8_VERSION}.so \
+	&& rm -rf /tmp/build
     && if [ "${OSS_ONLY}" != "" ]; then rm -f $(pg_config --pkglibdir)/timescaledb-tsl-*.so; fi \
     && apk del .fetch-deps .build-deps \
     && rm -rf /build \
     && sed -r -i "s/[#]*\s*(shared_preload_libraries)\s*=\s*'(.*)'/\1 = 'timescaledb,\2'/;s/,'/'/" /usr/local/share/postgresql/postgresql.conf.sample
 
-RUN mkdir -p /tmp/build \
-  && curl -o /tmp/build/v$PLV8_VERSION.tar.gz -SL "https://github.com/plv8/plv8/archive/v${PLV8_VERSION}.tar.gz" \
-  && cd /tmp/build \
-  && echo $PLV8_SHASUM v$PLV8_VERSION.tar.gz | sha256sum -c \
-  && tar -xzf /tmp/build/v$PLV8_VERSION.tar.gz -C /tmp/build/ \
-  && cd /tmp/build/plv8-$PLV8_VERSION \
-  && make static \
-  && make install \
-  && strip /usr/lib/postgresql/${PG_MAJOR}/lib/plv8-${PLV8_VERSION}.so \
-  && rm -rf /tmp/build
