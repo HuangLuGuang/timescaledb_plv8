@@ -1,4 +1,4 @@
-ARG PG_VERSION=12.2
+ARG PG_VERSION=12
 ARG PREV_TS_VERSION=1.7.2
 ARG PREV_EXTRA
 ############################
