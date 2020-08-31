@@ -7,7 +7,7 @@ ENV PLV8_VERSION=2.3.14 \
 
 
 RUN apk update \
-	&& apk add curl git make cmake gcc g++  perl \
+	&& apk add curl git make cmake gcc g++  perl python3 \
 	&& mkdir -p /tmp/build \
 	&& curl -o /tmp/build/${PLV8_VERSION}.tar.gz -SL "https://codeload.github.com/plv8/plv8/tar.gz/v${PLV8_VERSION}" \
 	&& tar -xzf /tmp/build/${PLV8_VERSION}.tar.gz -C /tmp/build/ \
