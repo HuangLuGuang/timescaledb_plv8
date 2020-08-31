@@ -65,7 +65,6 @@ RUN set -ex \
                 openssl \
                 openssl-dev \
                 tar \
-				curl \
     && mkdir -p /build/ \
     && git clone https://github.com/timescale/timescaledb /build/timescaledb \
     \
@@ -77,6 +76,7 @@ RUN set -ex \
                 make \
                 cmake \
                 util-linux-dev \
+				curl \
     \
     # Build current version \
     && cd /build/timescaledb && rm -fr build \
