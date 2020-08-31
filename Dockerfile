@@ -13,7 +13,7 @@ ENV PLV8_VERSION=2.3.14 \
     PLV8_SHASUM="9bfbe6498fcc7b8554e4b7f7e48c75acef10f07cf1e992af876a71e4dbfda0a6"
 
 
-RUN apk update && apk add --no-cache git curl \
+RUN apk update && apk add --no-cache git \
     && mkdir -p ${GOPATH}/src/github.com/timescale/ \
     && cd ${GOPATH}/src/github.com/timescale/ \
     && git clone https://github.com/timescale/timescaledb-tune.git \
@@ -65,6 +65,7 @@ RUN set -ex \
                 openssl \
                 openssl-dev \
                 tar \
+				curl \
     && mkdir -p /build/ \
     && git clone https://github.com/timescale/timescaledb /build/timescaledb \
     \
