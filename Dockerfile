@@ -10,7 +10,7 @@ RUN buildDependencies="build-essential \
     ca-certificates \
     curl \
 	wget \
-	lsb-core \
+	lsb_release \
     git-core \
     python \
     gpp \
