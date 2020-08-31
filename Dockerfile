@@ -7,9 +7,7 @@ ENV PLV8_VERSION=2.3.14 \
 
 
 RUN 
-  && sh -c "echo 'deb https://packagecloud.io/timescale/timescaledb/debian/ `lsb_release -c -s` main' > /etc/apt/sources.list.d/timescaledb.list" \
-  && wget --quiet -O - https://packagecloud.io/timescale/timescaledb/gpgkey | sudo apt-key add - \
-  &&buildDependencies="build-essential \
+  buildDependencies="build-essential \
     ca-certificates \
     curl \
     git-core \
@@ -22,12 +20,13 @@ RUN
     libc++-dev \
     libc++abi-dev \
     postgresql-server-dev-$PG_MAJOR" \
-	timescaledb-postgresql-12 \
   && runtimeDependencies="libc++1 \
     libtinfo5 \
     libc++abi1" \
+  && sh -c "echo 'deb https://packagecloud.io/timescale/timescaledb/debian/ `lsb_release -c -s` main' > /etc/apt/sources.list.d/timescaledb.list" \
+  && wget --quiet -O - https://packagecloud.io/timescale/timescaledb/gpgkey | sudo apt-key add - \
   && apt-get update \
-  && apt-get install -y --no-install-recommends ${buildDependencies} ${runtimeDependencies} \
+  && apt-get install -y --no-install-recommends ${buildDependencies} ${runtimeDependencies} timescaledb-postgresql-12 \
   && timescaledb-tune \
   && mkdir -p /tmp/build \
   && curl -o /tmp/build/v$PLV8_VERSION.tar.gz -SL "https://github.com/plv8/plv8/archive/v${PLV8_VERSION}.tar.gz" \
