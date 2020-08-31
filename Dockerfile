@@ -61,7 +61,7 @@ COPY --from=oldversions /usr/local/share/postgresql/extension/timescaledb--*.sql
 RUN set -ex \
     && apk add --no-cache --virtual .fetch-deps \
                 ca-certificates \
-                git \
+                git curl \
                 openssl \
                 openssl-dev \
                 tar \
@@ -76,7 +76,6 @@ RUN set -ex \
                 make \
                 cmake \
                 util-linux-dev \
-				curl \
     \
     # Build current version \
     && cd /build/timescaledb && rm -fr build \
