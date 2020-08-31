@@ -10,7 +10,7 @@ RUN buildDependencies="build-essential \
     ca-certificates \
     curl \
 	wget \
-	lsb-core \
+	lsb-release \
     git-core \
     python \
     gpp \
@@ -25,6 +25,7 @@ RUN buildDependencies="build-essential \
     libtinfo5 \
     libc++abi1" \
   && apt-get update \
+  && apt-get upgrade \
   && apt-get install -y --no-install-recommends ${buildDependencies} ${runtimeDependencies} \
   && sh -c "echo 'deb https://packagecloud.io/timescale/timescaledb/debian/ `lsb_release -c -s` main' > /etc/apt/sources.list.d/timescaledb.list" \
   && wget --quiet -O - https://packagecloud.io/timescale/timescaledb/gpgkey | apt-key add - \
