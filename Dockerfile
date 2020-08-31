@@ -1,6 +1,6 @@
 ARG postgres_version=12
 
-FROM timescale/timescaledb:$postgres_version
+FROM timescale/timescaledb:latest-pg$postgres_version
 
 ENV PLV8_VERSION=2.3.14 \
     PLV8_SHASUM="9bfbe6498fcc7b8554e4b7f7e48c75acef10f07cf1e992af876a71e4dbfda0a6"
