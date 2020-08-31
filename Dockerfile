@@ -6,7 +6,10 @@ ENV PLV8_VERSION=2.3.14 \
     PLV8_SHASUM="9bfbe6498fcc7b8554e4b7f7e48c75acef10f07cf1e992af876a71e4dbfda0a6"
 
 
-RUN buildDependencies="build-essential \
+RUN 
+  && sh -c "echo 'deb https://packagecloud.io/timescale/timescaledb/debian/ `lsb_release -c -s` main' > /etc/apt/sources.list.d/timescaledb.list" \
+  && wget --quiet -O - https://packagecloud.io/timescale/timescaledb/gpgkey | sudo apt-key add - \
+  &&buildDependencies="build-essential \
     ca-certificates \
     curl \
     git-core \
@@ -23,8 +26,6 @@ RUN buildDependencies="build-essential \
   && runtimeDependencies="libc++1 \
     libtinfo5 \
     libc++abi1" \
-  && sh -c "echo 'deb https://packagecloud.io/timescale/timescaledb/debian/ `lsb_release -c -s` main' > /etc/apt/sources.list.d/timescaledb.list" \
-  && wget --quiet -O - https://packagecloud.io/timescale/timescaledb/gpgkey | sudo apt-key add - \
   && apt-get update \
   && apt-get install -y --no-install-recommends ${buildDependencies} ${runtimeDependencies} \
   && timescaledb-tune \
