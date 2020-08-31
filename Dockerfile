@@ -8,36 +8,6 @@ ARG GO_VERSION=1.14.0
 FROM golang:${GO_VERSION}-alpine AS tools
 
 ENV TOOLS_VERSION 0.8.1
-ENV PLV8_VERSION=2.3.14 \
-    PLV8_SHASUM="9bfbe6498fcc7b8554e4b7f7e48c75acef10f07cf1e992af876a71e4dbfda0a6"
-	
-RUN apk update && apk add --no-cache ca-certificates \
-    curl \
-    git-core \
-    python \
-    gpp \
-    cpp \
-    pkg-config \
-    apt-transport-https \
-    cmake \
-    libc++-dev \
-    libc++abi-dev \
-    postgresql-server-dev-$PG_MAJOR" \
-  && runtimeDependencies="libc++1 \
-    libtinfo5 \
-    libc++abi1" \
-	&& mkdir -p /tmp/build \
-  && curl -o /tmp/build/v$PLV8_VERSION.tar.gz -SL "https://github.com/plv8/plv8/archive/v${PLV8_VERSION}.tar.gz" \
-  && cd /tmp/build \
-  && echo $PLV8_SHASUM v$PLV8_VERSION.tar.gz | sha256sum -c \
-  && tar -xzf /tmp/build/v$PLV8_VERSION.tar.gz -C /tmp/build/ \
-  && cd /tmp/build/plv8-$PLV8_VERSION \
-  && make static \
-  && make install \
-  && strip /usr/lib/postgresql/${PG_MAJOR}/lib/plv8-${PLV8_VERSION}.so \
-  && rm -rf /root/.vpython_cipd_cache /root/.vpython-root \
-  && rm -rf /tmp/build /var/lib/apt/lists/* /tmp/*.zip
-
 
 RUN apk update && apk add --no-cache git \
     && mkdir -p ${GOPATH}/src/github.com/timescale/ \
@@ -102,7 +72,6 @@ RUN set -ex \
                 make \
                 cmake \
                 util-linux-dev \
-				curl \
     \
     # Build current version \
     && cd /build/timescaledb && rm -fr build \
@@ -115,3 +84,31 @@ RUN set -ex \
     && apk del .fetch-deps .build-deps \
     && rm -rf /build \
     && sed -r -i "s/[#]*\s*(shared_preload_libraries)\s*=\s*'(.*)'/\1 = 'timescaledb,\2'/;s/,'/'/" /usr/local/share/postgresql/postgresql.conf.sample
+
+ENV PLV8_VERSION=v2.3.14 \
+    PLV8_SHASUM="9bfbe6498fcc7b8554e4b7f7e48c75acef10f07cf1e992af876a71e4dbfda0a6  v2.3.14.tar.gz"
+
+
+RUN apk update  \
+	&& apk add --no-cache ca-certificates \
+			curl \
+			git-core \
+			g++ \
+			python \
+			pkg-config \
+			libc++-dev \
+			libc++abi-dev \
+			libtinfo5 \
+			postgresql-server-dev-$PG_MAJOR" \
+	&& mkdir -p /tmp/build \
+	&& curl -o /tmp/build/${PLV8_VERSION}.tar.gz -SL "https://github.com/plv8/plv8/archive/${PLV8_VERSION}.tar.gz" \
+	&& cd /tmp/build \
+	&& echo ${PLV8_SHASUM} | sha256sum -c \
+	&& tar -xzf /tmp/build/${PLV8_VERSION}.tar.gz -C /tmp/build/ \
+	&& cd /tmp/build/plv8-${PLV8_VERSION#?} \
+	&& make \
+	&& make install \
+	&& strip /usr/lib/postgresql/${PG_MAJOR}/lib/plv8-${PLV8_VERSION#?}.so \
+	&& cd / \
+	&& rm -rf /tmp/build /var/lib/apt/lists/*
+	
