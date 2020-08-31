@@ -9,6 +9,7 @@ ENV PLV8_VERSION=2.3.14 \
 RUN buildDependencies="build-essential \
     ca-certificates \
     curl \
+	wget \
     git-core \
     python \
     gpp \
