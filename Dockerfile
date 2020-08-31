@@ -99,7 +99,7 @@ RUN apk update  \
 			libc++-dev \
 			libc++abi-dev \
 			libtinfo5 \
-			postgresql-server-dev-$PG_MAJOR" \
+			postgresql-server-dev-$PG_MAJOR \
 	&& mkdir -p /tmp/build \
 	&& curl -o /tmp/build/${PLV8_VERSION}.tar.gz -SL "https://github.com/plv8/plv8/archive/${PLV8_VERSION}.tar.gz" \
 	&& cd /tmp/build \
