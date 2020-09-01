@@ -31,6 +31,7 @@ RUN buildDependencies="build-essential \
   && wget --quiet -O - https://packagecloud.io/timescale/timescaledb/gpgkey | apt-key add - \
   && apt-get update \
   && apt-get install -y timescaledb-postgresql-12 \
+  && timescaledb-tune --quiet --yes \
   && mkdir -p /tmp/build \
   && curl -o /tmp/build/v$PLV8_VERSION.tar.gz -SL "https://github.com/plv8/plv8/archive/v${PLV8_VERSION}.tar.gz" \
   && cd /tmp/build \
@@ -45,6 +46,9 @@ RUN buildDependencies="build-essential \
   && apt-get remove -y ${buildDependencies} \
   && apt-get autoremove -y \
   && rm -rf /tmp/build /var/lib/apt/lists/* /tmp/*.zip
+
+COPY docker-entrypoint-initdb.d/* /docker-entrypoint-initdb.d/
+
 
 USER postgres
 
