@@ -30,7 +30,7 @@ RUN buildDependencies="build-essential \
   && sh -c "echo 'deb https://packagecloud.io/timescale/timescaledb/debian/ `lsb_release -c -s` main' > /etc/apt/sources.list.d/timescaledb.list" \
   && wget --quiet -O - https://packagecloud.io/timescale/timescaledb/gpgkey | apt-key add - \
   && apt-get update \
-  && apt-get install -y timescaledb-postgresql-12 free \
+  && apt-get install -y timescaledb-postgresql-12 procps \
   && mkdir -p /tmp/build \
   && curl -o /tmp/build/v$PLV8_VERSION.tar.gz -SL "https://github.com/plv8/plv8/archive/v${PLV8_VERSION}.tar.gz" \
   && cd /tmp/build \
