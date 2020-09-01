@@ -29,6 +29,7 @@ RUN buildDependencies="build-essential \
   && apt-get install -y --no-install-recommends ${buildDependencies} ${runtimeDependencies} \
   && sh -c "echo 'deb https://packagecloud.io/timescale/timescaledb/debian/ `lsb_release -c -s` main' > /etc/apt/sources.list.d/timescaledb.list" \
   && wget --quiet -O - https://packagecloud.io/timescale/timescaledb/gpgkey | apt-key add - \
+  && apt-get update \
   && apt-get install -y timescaledb-postgresql-12 \
   && timescaledb-tune \
   && mkdir -p /tmp/build \
