@@ -10,8 +10,8 @@ docker build -t timescaledb_plv8 .
 ###### 2.注册 `Docker Hub`账号自动化构建
 
 - 将该所有文件推送到`github`上
-- 在`https://hub.docker.com/`上注册账号，并创建仓库
-- 将`github`仓库和`github`仓库连接
+- 在`https://hub.docker.com/`上注册账号登录，并创建仓库
+- 将`docker hub`仓库和`github`仓库连接
 - 设置自动化构建触发器
 
 ##### 版本信息
