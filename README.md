@@ -1,4 +1,4 @@
-##### `postgreSQL`集成了`timescaedb `和 `plv8`扩展
+##### `postgreSQL`集成了`timescaledb `和 `plv8`扩展
 
 ##### 构建镜像常见的两种方式，推荐方式2
 
